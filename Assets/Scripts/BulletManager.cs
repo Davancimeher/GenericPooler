@@ -4,12 +4,23 @@ using UnityEngine;
 
 public class BulletManager : MonoBehaviour
 {
-    private Vector3 shootDirection;
+    public Vector3 shootDirection;
     private float MoveSpeed = 200f;
+    private bool isPooled;
 
     private void OnEnable()
     {
-        shootDirection = GunController.Instance.shootDirection;
+        if(isPooled)
+            shootDirection = GunController.Instance.Projectile.transform.forward;
+
+    }
+    private void Start()
+    {
+        if (!isPooled)
+        {
+            shootDirection = GunController.Instance.Projectile.transform.forward;
+            isPooled = true;
+        }
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -28,6 +39,6 @@ public class BulletManager : MonoBehaviour
 
     private void OnDisable()
     {
-        if(Pooler.Instance != null) Pooler.Instance.DespawnObjectFromPool("Bullet", this.gameObject);
+        if (Pooler.Instance != null) Pooler.Instance.DespawnObjectFromPool("Bullet", this.gameObject);
     }
 }

@@ -10,7 +10,7 @@ public class GunController : SingletonMB<GunController>
     public float FireRate;
 
     [SerializeField] private float FireRateValue;
-    [SerializeField] private Transform Projectile;  
+    public Transform Projectile;  
 
     private Pooler Pooler;
 
@@ -60,15 +60,20 @@ public class GunController : SingletonMB<GunController>
     }
     private void Update()
     {
-        if (Input.GetKey(KeyCode.Mouse1))
+        Input();
+    }
+
+    private void Input()
+    {
+        if (UnityEngine.Input.GetKey(KeyCode.Mouse1))
         {
             DoAim();
         }
-        if (Input.GetKeyUp(KeyCode.Mouse1))
+        if (UnityEngine.Input.GetKeyUp(KeyCode.Mouse1))
         {
             RemoveAim();
         }
-        if (Input.GetKey(KeyCode.Mouse0))
+        if (UnityEngine.Input.GetKey(KeyCode.Mouse0))
         {
             Shoot();
         }
