@@ -54,7 +54,6 @@ public class Pooler : SingletonMB<Pooler>
     {
         m_poolDictionary = new Dictionary<string, ObjectPoolItem>();
 
-
         foreach (ObjectPoolItem pool in m_Pools)
         {
             m_poolDictionary.Add(pool.Tag, pool);
@@ -75,6 +74,7 @@ public class Pooler : SingletonMB<Pooler>
                 objectPool.Add(poolObject);
             }
 
+           
             pool.m_Pool = objectPool;
         }
     }

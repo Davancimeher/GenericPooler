@@ -15,6 +15,8 @@ public class BulletManager : MonoBehaviour
     {
         if (other.CompareTag("Cube"))
         {
+            StatisticManager.Instance.UpdateUI(_prefabShooted: true);
+
             other.gameObject.SetActive(false);
             this.gameObject.SetActive(false);
         }

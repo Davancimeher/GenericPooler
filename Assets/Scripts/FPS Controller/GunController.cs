@@ -15,10 +15,12 @@ public class GunController : SingletonMB<GunController>
     private Pooler Pooler;
 
     public Vector3 shootDirection;
+    private StatisticManager StatisticManager;
 
     private void Start()
     {
         Pooler = Pooler.Instance;
+        StatisticManager = StatisticManager.Instance;
         FireRateValue = FireRate;
     }
     private void DoAim()
@@ -49,8 +51,10 @@ public class GunController : SingletonMB<GunController>
                 Debug.Log("shoot bullet");
                 FireRateValue = FireRate;
                 shootDirection = Projectile.transform.forward;
+
                 Pooler.UpdateFromPool("Bullet", 1, Projectile.transform.position);
 
+                StatisticManager.UpdateUI(_bulletShooted: true);
             }
         }
     }
