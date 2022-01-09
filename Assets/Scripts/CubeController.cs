@@ -56,9 +56,17 @@ public class CubeController : MonoBehaviour
 
     private void OnDisable()
     {
-        int index = FindNearestNeighbour.cubes.ToList().FindIndex(a => a == this);
+        if(Pooler.Instance != null)
+        {
+            Pooler.Instance.DespawnObjectFromPool("Cube", this.gameObject);
+        }
+        if(FindNearestNeighbour != null)
+        {
+            int index = FindNearestNeighbour.cubes.ToList().FindIndex(a => a == this);
 
-        if (index != -1)
-            FindNearestNeighbour.cubes.RemoveAt(index);
+            if (index != -1)
+                FindNearestNeighbour.cubes.RemoveAt(index);
+        }
+      
     }
 }

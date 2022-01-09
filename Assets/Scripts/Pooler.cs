@@ -54,8 +54,11 @@ public class Pooler : SingletonMB<Pooler>
     {
         m_poolDictionary = new Dictionary<string, ObjectPoolItem>();
 
+
         foreach (ObjectPoolItem pool in m_Pools)
         {
+            m_poolDictionary.Add(pool.Tag, pool);
+
             List<GameObject> objectPool = new List<GameObject>();
 
             var poolParent = new GameObject(pool.Tag);
@@ -73,7 +76,6 @@ public class Pooler : SingletonMB<Pooler>
             }
 
             pool.m_Pool = objectPool;
-            m_poolDictionary.Add(pool.Tag, pool);
         }
     }
 
@@ -99,6 +101,10 @@ public class Pooler : SingletonMB<Pooler>
                 AddObjectToPool(objectPoolItem, amountToAdd);
                 objectPoolItem.amountToPool = _amount + objectPoolItem.m_ActiveObjects;
 
+            }
+            else
+            {
+                DeSpawnFromPoolFirst(_tag);
             }
         }
     }
@@ -162,6 +168,15 @@ public class Pooler : SingletonMB<Pooler>
         return objectToSpawn;
     }
 
+    public void DespawnObjectFromPool(string _tag,GameObject _itemToRemove)
+    {
+        if (!m_poolDictionary.ContainsKey(_tag))
+        {
+            Debug.LogWarning("Invalid Tag : " + _tag);
+            return;
+        }
+        DeSpawnFromPool(_tag, _itemToRemove);
+    }
 
     private GameObject objectToDeSpawn;
 
@@ -196,6 +211,31 @@ public class Pooler : SingletonMB<Pooler>
         m_poolDictionary[_tag].m_Pool.Insert(0,objectToDeSpawn);
 
         m_poolDictionary[_tag].m_ActiveObjects--;
+    }
+    private void DeSpawnFromPoolFirst(string _tag)
+    {
+        objectToDeSpawn = m_poolDictionary[_tag].m_Pool.First();
+
+        m_poolDictionary[_tag].m_Pool.Remove(objectToDeSpawn);
+
+        objectToDeSpawn.SetActive(false);
+
+        m_poolDictionary[_tag].m_Pool.Insert(m_poolDictionary[_tag].m_Pool.Count-1, objectToDeSpawn);
+
+        m_poolDictionary[_tag].m_ActiveObjects--;
+    }
+    private void DeSpawnFromPool(string _tag,GameObject _itemToRemove)
+    {
+        if (m_poolDictionary[_tag].m_Pool.Contains(_itemToRemove))
+        {
+            m_poolDictionary[_tag].m_Pool.Remove(_itemToRemove);
+
+            _itemToRemove.SetActive(false);
+
+            m_poolDictionary[_tag].m_Pool.Insert(0, _itemToRemove);
+
+            m_poolDictionary[_tag].m_ActiveObjects--;
+        }
     }
 
     #endregion
