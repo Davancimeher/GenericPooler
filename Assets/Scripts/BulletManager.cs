@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class BulletManager : MonoBehaviour
 {
-    private Rigidbody Rb;
     private Vector3 shootDirection;
     private float MoveSpeed = 200f;
 

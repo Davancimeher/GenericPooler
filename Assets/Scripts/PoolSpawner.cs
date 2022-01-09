@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System;
 
 public class PoolSpawner : SingletonMB<PoolSpawner>
 {
@@ -35,7 +36,20 @@ public class PoolSpawner : SingletonMB<PoolSpawner>
 
         ApplyButton.onClick.AddListener(() => ApplyUpdateToPool());
 
+        Pooler.SubscribeToPrefabAmountEvent("Cube", OnPrefabCountChanged);
+
     }
+    private void OnDisable()
+    {
+        Pooler.UnSubcribeToPrefabAmountEvent("Cube", OnPrefabCountChanged);
+    }
+
+    public void OnPrefabCountChanged(object sender, EventArgs e)
+    {
+        PrefabCountText.text = Pooler.GetActivePooledObjects("Cube").ToString();
+        Debug.Log("pojkpdozd");
+    }
+
     /// <summary>
     /// Update pools from pooler
     /// </summary>
@@ -46,8 +60,6 @@ public class PoolSpawner : SingletonMB<PoolSpawner>
         Pooler.UpdateFromPool(_tag, _amount, _minPosition : _minPosition,_maxPosition : _maxPosition) ;
 
         SpawnedObjects =  Pooler.GetActivePooledObjects(_tag);
-
-        PrefabCountText.text = SpawnedObjects.ToString();
     }
 
     private void ApplyUpdateToPool()

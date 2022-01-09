@@ -165,6 +165,8 @@ public class Pooler : SingletonMB<Pooler>
 
         m_poolDictionary[_tag].m_ActiveObjects++;
 
+        m_poolDictionary[_tag].OnVariableChange?.Invoke(this, EventArgs.Empty);
+
         return objectToSpawn;
     }
 
@@ -211,6 +213,8 @@ public class Pooler : SingletonMB<Pooler>
         m_poolDictionary[_tag].m_Pool.Insert(0,objectToDeSpawn);
 
         m_poolDictionary[_tag].m_ActiveObjects--;
+        m_poolDictionary[_tag].OnVariableChange?.Invoke(this, EventArgs.Empty);
+
     }
     private void DeSpawnFromPoolFirst(string _tag)
     {
@@ -223,6 +227,9 @@ public class Pooler : SingletonMB<Pooler>
         m_poolDictionary[_tag].m_Pool.Insert(m_poolDictionary[_tag].m_Pool.Count-1, objectToDeSpawn);
 
         m_poolDictionary[_tag].m_ActiveObjects--;
+
+        m_poolDictionary[_tag].OnVariableChange?.Invoke(this, EventArgs.Empty);
+
     }
     private void DeSpawnFromPool(string _tag,GameObject _itemToRemove)
     {
@@ -235,9 +242,29 @@ public class Pooler : SingletonMB<Pooler>
             m_poolDictionary[_tag].m_Pool.Insert(0, _itemToRemove);
 
             m_poolDictionary[_tag].m_ActiveObjects--;
+
+            m_poolDictionary[_tag].OnVariableChange?.Invoke(this, EventArgs.Empty);
+
         }
     }
-
+    public void SubscribeToPrefabAmountEvent(string _tag,EventHandler Subscriber)
+    {
+        if (!m_poolDictionary.ContainsKey(_tag))
+        {
+            Debug.LogWarning("Invalid Tag : " + _tag);
+            return;
+        }
+        m_poolDictionary[_tag].OnVariableChange += Subscriber;
+    }
+    public void UnSubcribeToPrefabAmountEvent(string _tag, EventHandler Subscriber)
+    {
+        if (!m_poolDictionary.ContainsKey(_tag))
+        {
+            Debug.LogWarning("Invalid Tag : " + _tag);
+            return;
+        }
+        m_poolDictionary[_tag].OnVariableChange -= Subscriber;
+    }
     #endregion
 }
 
@@ -246,7 +273,6 @@ public class ObjectPoolItem
 {
     public string Tag;
 
-
     public List<GameObject> m_Pool;
 
     public GameObject objectToPool;
@@ -254,5 +280,8 @@ public class ObjectPoolItem
     public bool Expandable = true;
     public Transform m_Parent;
     public int m_ActiveObjects;
+
+    public EventHandler OnVariableChange;
+        
 }
 
