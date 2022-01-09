@@ -41,9 +41,9 @@ public class PoolSpawner : MonoBehaviour
     /// </summary>
     /// <param name="_tag"></param>
     /// <param name="_amount"></param>
-    public void UpdateFromPool(string _tag, int _amount)
+    public void UpdateFromPool(string _tag, int _amount,Vector3? _minPosition, Vector3? _maxPosition)
     {
-        Pooler.UpdateFromPool(_tag, _amount);
+        Pooler.UpdateFromPool(_tag, _amount, _minPosition : _minPosition,_maxPosition : _maxPosition) ;
 
         SpawnedObjects =  Pooler.GetActivePooledObjects(_tag);
 
@@ -54,7 +54,7 @@ public class PoolSpawner : MonoBehaviour
     {
         if (int.TryParse(AmountInputField.text, out Amount))
         {
-            UpdateFromPool("Cube", Amount);
+            UpdateFromPool("Cube", Amount, minPosition,MaxPosition);
         }
     }
 }

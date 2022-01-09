@@ -32,13 +32,13 @@ public class Pooler : SingletonMB<Pooler>
     /// <param name="_amount">If _amount Postive spawn(_amount) objects from pool,If _amount negative despawn(_amount) objects from pool </param>
     /// <param name="_position">spawn position</param>
     /// <param name="_rotation">spawn rotation</param>
-    public void UpdateFromPool(string _tag, int _amount, Vector3 _position = new Vector3(), Quaternion _rotation = new Quaternion())
+    public void UpdateFromPool(string _tag, int _amount, Vector3 _position = new Vector3(), Vector3? _minPosition = null, Vector3? _maxPosition = null, Quaternion _rotation = new Quaternion())
     {
-        if (_amount == 0) return;
+        if (_amount == 0) return;   
 
         if (_amount > 0)
         {
-            SpawnFromPool(_tag, _amount, _position, _rotation);
+            SpawnFromPool(_tag, _amount, _position,_rotation,_minPosition, _maxPosition );
         }
         else
         {
@@ -122,17 +122,17 @@ public class Pooler : SingletonMB<Pooler>
     }
     private GameObject objectToSpawn;
 
-    private void SpawnFromPool(string _tag, int _amount, Vector3 _position,Quaternion _rotation)
+    private void SpawnFromPool(string _tag, int _amount, Vector3 _position,Quaternion _rotation, Vector3? _minPosition = null, Vector3? _maxPosition = null)
     {
         CheckExtandPool(_tag, _amount);
 
         for (int i = 0; i < _amount; i++)
         {
-            SpawnFromPool(_tag, _position, _rotation);
+            SpawnFromPool(_tag, _position, _rotation,_minPosition,_maxPosition);
         }
     }
 
-    private GameObject SpawnFromPool(string _tag, Vector3 _position, Quaternion _rotation)
+    private GameObject SpawnFromPool(string _tag, Vector3 _position, Quaternion _rotation, Vector3? _minPosition = null, Vector3? _maxPosition = null)
     {
         if (!m_poolDictionary.ContainsKey(_tag))
         {
@@ -145,7 +145,14 @@ public class Pooler : SingletonMB<Pooler>
         m_poolDictionary[_tag].m_Pool.Remove(objectToSpawn);
 
         objectToSpawn.SetActive(true);
+
+        if(_minPosition != null && _maxPosition != null)
+        {
+           _position =  _position.Random((Vector3)_minPosition,(Vector3) _maxPosition);
+        }
+
         objectToSpawn.transform.position = _position;
+
         objectToSpawn.transform.rotation = _rotation;   
 
         m_poolDictionary[_tag].m_Pool.Add(objectToSpawn);
