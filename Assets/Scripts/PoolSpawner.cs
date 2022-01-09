@@ -20,9 +20,14 @@ public class PoolSpawner : MonoBehaviour
     #region Private variables
     [SerializeField] private int SpawnedObjects;    
     [SerializeField] private int Amount;
+
+    [SerializeField] private Vector3 minPosition, MaxPosition;
+
+
+
     #endregion
 
-    private Pooler Pooler;//instance of pooler
+   private Pooler Pooler;//instance of pooler
 
     private void Start()
     {
