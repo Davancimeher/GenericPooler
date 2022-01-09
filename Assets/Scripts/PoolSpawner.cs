@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
-public class PoolSpawner : MonoBehaviour
+public class PoolSpawner : SingletonMB<PoolSpawner>
 {
     #region UI Region
 
@@ -21,7 +21,7 @@ public class PoolSpawner : MonoBehaviour
     [SerializeField] private int SpawnedObjects;    
     [SerializeField] private int Amount;
 
-    [SerializeField] private Vector3 minPosition, MaxPosition;
+    [SerializeField] public Vector3 m_MinPosition, m_MaxPosition;
 
 
 
@@ -54,7 +54,7 @@ public class PoolSpawner : MonoBehaviour
     {
         if (int.TryParse(AmountInputField.text, out Amount))
         {
-            UpdateFromPool("Cube", Amount, minPosition,MaxPosition);
+            UpdateFromPool("Cube", Amount, m_MinPosition,m_MaxPosition);
         }
     }
 }

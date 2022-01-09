@@ -482,7 +482,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &705507993
 GameObject:
@@ -654,7 +654,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalPosition: {x: 3.8, y: 3.54, z: -18.97}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -844,13 +844,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d555d7c6b5b27c94485dd93f809ab892, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DontDestroy: 0
   PrefabCountText: {fileID: 56269219}
   AmountInputField: {fileID: 2139895107}
   ApplyButton: {fileID: 1867422885}
   SpawnedObjects: 0
   Amount: 5
-  minPosition: {x: -11, y: -5, z: 2}
-  MaxPosition: {x: 11, y: 7, z: 15}
+  m_MinPosition: {x: -7, y: -3, z: -2}
+  m_MaxPosition: {x: 14, y: 9, z: 5}
 --- !u!4 &1193147066
 Transform:
   m_ObjectHideFlags: 0
@@ -863,7 +864,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1232196444
 GameObject:
@@ -1106,6 +1107,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DontDestroy: 0
+  ShowLineInGame: 0
 --- !u!4 &1375590527
 Transform:
   m_ObjectHideFlags: 0
@@ -1118,7 +1120,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1570215069
 GameObject:
